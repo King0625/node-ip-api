@@ -9,8 +9,13 @@ app.get('/ip', (req, res) => {
 })
 
 app.get('/', (req, res) => {
+  const ipinfo = req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+
   res.json({
-    ip: req.ip
+    ip: ipinfo
   });
 })
 app.listen(3000, () => console.log("Listening on port 3000"));
